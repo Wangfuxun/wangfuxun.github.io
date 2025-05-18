@@ -16,21 +16,26 @@
   <meta name="author" content="WangFuxun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="B树 B树又称为多路平衡查找树，所有结点的孩子个数的最大值为B树的阶。 一棵m阶B树（m叉）满足：  根节点至少1个关键字，非根节点至少有\(\lceil m &#x2F; 2 \rceil - 1\)个关键字，至多m-1个关键字。 所有叶子节点处于同一层，保证平衡性。 结点的子树个数 &#x3D; 关键字个数 + 1 每一个结点包含关键字和其指向对应记录的指针。  一棵4阶B树如图所示，其中P指">
+    <meta name="description" content="Redis三主三从分片集群可以直接在Linux虚拟机上搭建或者通过Docker容器搭建。这里采用Docker容器的方式进行搭建。 1.拉取镜像 首先从Docker Hub中拉取Redis镜像，这里拉取的是7.4.1版。 1docker pull redis:7.4.1 2.修改redis配置文件 主要是对redis的集群模式、保护模式等信息进行配置，内容如下： 123456789101">
 <meta property="og:type" content="article">
-<meta property="og:title" content="B树与B+树">
-<meta property="og:url" content="https://wangfuxun.github.io/posts/18710/index.html">
+<meta property="og:title" content="Redis分片集群搭建">
+<meta property="og:url" content="https://wangfuxun.github.io/posts/43577/index.html">
 <meta property="og:site_name" content="用心流浪">
-<meta property="og:description" content="B树 B树又称为多路平衡查找树，所有结点的孩子个数的最大值为B树的阶。 一棵m阶B树（m叉）满足：  根节点至少1个关键字，非根节点至少有\(\lceil m &#x2F; 2 \rceil - 1\)个关键字，至多m-1个关键字。 所有叶子节点处于同一层，保证平衡性。 结点的子树个数 &#x3D; 关键字个数 + 1 每一个结点包含关键字和其指向对应记录的指针。  一棵4阶B树如图所示，其中P指">
+<meta property="og:description" content="Redis三主三从分片集群可以直接在Linux虚拟机上搭建或者通过Docker容器搭建。这里采用Docker容器的方式进行搭建。 1.拉取镜像 首先从Docker Hub中拉取Redis镜像，这里拉取的是7.4.1版。 1docker pull redis:7.4.1 2.修改redis配置文件 主要是对redis的集群模式、保护模式等信息进行配置，内容如下： 123456789101">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-09-05T11:47:42.000Z">
-<meta property="article:modified_time" content="2025-04-23T14:59:39.699Z">
+<meta property="og:image" content="https://wangfuxun.github.io/images/redis/redis%E9%9B%86%E7%BE%A4-%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8.png">
+<meta property="og:image" content="https://wangfuxun.github.io/images/redis/redis%E9%9B%86%E7%BE%A4-IP%E5%9C%B0%E5%9D%80.png">
+<meta property="og:image" content="https://wangfuxun.github.io/images/redis/redis%E9%9B%86%E7%BE%A4-%E6%9F%A5%E7%9C%8B%E9%9B%86%E7%BE%A4%E6%83%85%E5%86%B5.png">
+<meta property="og:image" content="https://wangfuxun.github.io/images/redis/redis%E9%9B%86%E7%BE%A4-%E6%89%A7%E8%A1%8C%E8%AF%BB%E5%86%99%E6%93%8D%E4%BD%9C.png">
+<meta property="article:published_time" content="2025-02-25T10:45:33.000Z">
+<meta property="article:modified_time" content="2025-05-18T09:05:12.564Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wangfuxun.github.io/images/redis/redis%E9%9B%86%E7%BE%A4-%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8.png">
   
   
   
-  <title>B树与B+树 - 用心流浪</title>
+  <title>Redis分片集群搭建 - 用心流浪</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -196,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="B树与B+树"></span>
+            <span id="subtitle" data-typed-text="Redis分片集群搭建"></span>
           
         </div>
 
@@ -207,8 +212,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-05 19:47" pubdate>
-          September 5, 2024 pm
+        <time datetime="2025-02-25 18:45" pubdate>
+          February 25, 2025 pm
         </time>
       </span>
     
@@ -219,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          600 words
+          1.9k words
         
       </span>
     
@@ -230,7 +235,7 @@
         
         
         
-          6 mins
+          17 mins
         
       </span>
     
@@ -267,44 +272,57 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">B树与B+树</h1>
+            <h1 id="seo-header">Redis分片集群搭建</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="b树">B树</h2>
-<p>B树又称为<strong>多路平衡查找树</strong>，所有结点的孩子个数的最大值为<strong>B树的阶。</strong></p>
-<p>一棵m阶B树（m叉）满足：</p>
+                <p>Redis<strong>三主三从</strong>分片集群可以直接在Linux虚拟机上搭建或者通过Docker容器搭建。这里采用Docker容器的方式进行搭建。</p>
+<h2 id="拉取镜像">1.拉取镜像</h2>
+<p>首先从Docker Hub中拉取Redis镜像，这里拉取的是7.4.1版。
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> pull redis:<span class="hljs-number">7</span>.<span class="hljs-number">4</span>.<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></p>
+<h2 id="修改redis配置文件">2.修改redis配置文件</h2>
+<p>主要是对redis的集群模式、保护模式等信息进行配置，内容如下：
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Redis监听端口</span><br>port 6379<br><span class="hljs-comment"># 是否启用集群模式</span><br>cluster-enabled <span class="hljs-built_in">yes</span><br><span class="hljs-comment"># 集群的配置文件名称，由redis自身维护</span><br>cluster-config-file /tmp/nodes.conf<br><span class="hljs-comment"># 节点心跳失败的超时时间</span><br>cluster-node-timeout 5000<br><span class="hljs-comment"># 绑定服务器监听的地址（0.0.0.0为允许任意IP访问）</span><br><span class="hljs-built_in">bind</span> 0.0.0.0<br><span class="hljs-comment"># 是否为保护模式（默认为yes）</span><br>protected-mode no<br><span class="hljs-comment"># 持久化文件的存放目录</span><br><span class="hljs-built_in">dir</span> /data<br></code></pre></td></tr></table></figure> 将配置文件复制六份，分别用于六个redis实例。</p>
+<h2 id="启动容器">3.启动容器</h2>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir">docker run -itd --privileged=<span class="hljs-literal">true</span> --name redis-c1 -v <span class="hljs-symbol">D:</span>\redis\myRedisConfig\redis-c1.conf/<span class="hljs-symbol">:/usr/local/etc/redis/redis-c1</span>.conf -p <span class="hljs-number">7001</span><span class="hljs-symbol">:</span><span class="hljs-number">6379</span> <span class="hljs-symbol">redis:</span><span class="hljs-number">7.4</span>.<span class="hljs-number">1</span> redis-server /usr/local/etc/redis/redis-c1.conf<br></code></pre></td></tr></table></figure>
+<p>命令解释：</p>
 <ol type="1">
-<li>根节点至少1个关键字，非根节点至少有<span
-class="math inline">\(\lceil m / 2 \rceil -
-1\)</span>个关键字，至多m-1个关键字。</li>
-<li>所有叶子节点处于同一层，保证平衡性。</li>
-<li><strong>结点的子树个数 = 关键字个数 + 1</strong></li>
-<li><strong>每一个结点包含关键字和其指向对应记录的指针</strong>。</li>
+<li><code>-v D:\redis\myRedisConfig\redis-c1.conf/:/usr/local/etc/redis/redis-c1.conf</code>：将宿主机配置文件D:-c1.conf挂载到容器内路径/usr/local/etc/redis/redis-c1.conf，实现配置共享。</li>
+<li><code>-p 7001:6379</code>：将宿主机的7001端口映射到容器的6379端口（Redis默认端口），外部通过宿主机IP:7001访问容器内Redis服务。</li>
+<li><code>redis-server /usr/local/etc/redis/redis-c1.conf</code>：容器启动后执行的命令，即以指定配置文件启动Redis服务。</li>
 </ol>
-<p>一棵4阶B树如图所示，其中P指向关键字对应数据的存储地址。 <img
-src="/images/tree/B树.jpg" srcset="/img/loading.gif" lazyload alt="B树" /></p>
-<h2 id="b树-1">B+树</h2>
-<p>B+树是B树的变体，一棵m阶B+树满足：</p>
+<p>使用上述命令创建并启动redis-c1至redis-c6共6个容器，分别对应宿主机的7001至7006端口，如下图。
+<img src="/images/redis/redis集群-启动容器.png" srcset="/img/loading.gif" lazyload alt="启动容器" /></p>
+<h2 id="创建集群">4.创建集群</h2>
+<p>容器启动完成后，这些redis实例并不是以集群模式工作的。可以在任意一个容器的终端窗口通过以下命令创建集群：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dns">redis-cli --cluster create <span class="hljs-number">172.17.0.2</span>:<span class="hljs-number">6379 172.17</span>.<span class="hljs-number">0.3:6379</span> <span class="hljs-number">172.17.0.4</span>:<span class="hljs-number">6379 172.17</span>.<span class="hljs-number">0.5:6379</span> <span class="hljs-number">172.17.0.6</span>:<span class="hljs-number">6379 172.17</span>.<span class="hljs-number">0.7:6379</span> --cluster-replicas <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<p>其中，172.17.0.2:6379至172.17.0.7:6379分别为6个redis实例的内网IP地址和端口号，可以通过inspect命令或者在容器Inspect窗口中查看，如下图所示。
+<img src="/images/redis/redis集群-IP地址.png" srcset="/img/loading.gif" lazyload alt="IP地址" /></p>
+<p>通过<code>redis-cli cluster nodes</code>命令查看集群情况，如下图所示。
+<img src="/images/redis/redis集群-查看集群情况.png" srcset="/img/loading.gif" lazyload
+alt="查看集群" /></p>
+<p>可以在任意一个容器的终端窗口通过<code>redis-cli -c</code>命令，以集群模式连接到Redis服务器。然后即可进行读写操作，在进行读写操作时会进行重定向，如下图所示。
+<img src="/images/redis/redis集群-执行读写操作.png" srcset="/img/loading.gif" lazyload
+alt="执行读写操作" /></p>
+<p>如果想要在Java项目中使用Redis集群，还需要引入对应的Redis依赖，然后在application配置文件中配置集群中每一个节点的IP地址和端口号，并配置读写分离，最后在RedisTemplate中执行读写操作。</p>
+<h2 id="问题总结">问题总结</h2>
+<h3 id="端口号配置">1.端口号配置</h3>
+<p>如果在配置文件中修改了Redis监听端口，则通过客户端连接时必须指定对应的IP地址和端口号，例如<code>redis-cli -h 127.0.0.1 -p 8001</code>，否则会无法连接。</p>
+<h3 id="网络">2.网络</h3>
+<p>在默认情况下，Docker容器会连接到一个<strong>bridge</strong>网络，每一个容器都会被分配一个特定的IP地址，容器之间可以通过该IP地址进行通信。上述配置采用的是这种方式，实际使用的是容器在bridge的内网IP地址。</p>
+<p>第二种方式也就是使用<strong>宿主机的IP地址</strong>作为节点的对外IP地址，需要在redis.conf中添加一项注册IP地址。同时为了避免冲突（只是显示上冲突，实际并没有冲突），最好将端口号也进行修改。
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"># 注册的实例IP，宿主机IP地址<br><span class="hljs-keyword">replica</span>-announce-ip <span class="hljs-number">192.168</span>.xx.xxx<br># Redis监听的端口<br>port <span class="hljs-number">8001</span><br></code></pre></td></tr></table></figure></p>
+<p>参考文章：</p>
 <ol type="1">
-<li>每一个非叶子结点最多有m棵子树。</li>
-<li><strong>根结点（非叶子结点）至少有2棵子树</strong>，而其他结点至少有<span
-class="math inline">\(\lceil m / 2 \rceil\)</span>棵子树。</li>
-<li><strong>结点的子树个数与关键字个数相等</strong>。</li>
-<li>所有叶子结点包含全部关键字及其指向相应记录的指针。</li>
-<li>叶子结点中将关键字按照大小顺序排列，并通过指针连接起来，组成一个<strong>链表</strong>。</li>
+<li><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45863248/article/details/145281362">Docker搭建redis集群</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43025151/article/details/134205482">使用Docker搭建一个“一主两从”的
+Redis 集群</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://download.csdn.net/blog/column/10939729/120390533">Docker搭建Redis主从复制集群</a></li>
 </ol>
-<p>B+树中非叶子结点中每一个关键字对应一个子树，即一个<strong>查找区间</strong>，该子树的最大值（或最小值）即为当前关键字。并且非叶子结点中不含有关键字对应数据的存储地址。</p>
-<p>一棵4阶B+树如图所示，其中P指向关键字对应数据的存储地址。 <img
-src="/images/tree/B+树.jpg" srcset="/img/loading.gif" lazyload alt="B+树" /></p>
-<h2 id="b树与b树的区别">B树与B+树的区别</h2>
-<ol type="1">
-<li>B+树中关键字个数=子树个数，而B树中关键字个数+1=子树个数。</li>
-<li>B+树仅叶子结点包含存储信息，<strong>非叶子结点起索引作用</strong>；B树所有结点都包含存储信息。</li>
-<li>B+树叶子结点通过指针相互连接，支持顺序查找，而B树则没有。</li>
-</ol>
-<p>总结：在<strong>范围查询</strong>和磁盘访问等场景中，B+树的查询性能通常会比B树好。</p>
 
                 
               </div>
@@ -323,7 +341,7 @@ src="/images/tree/B+树.jpg" srcset="/img/loading.gif" lazyload alt="B+树" /></
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  <a href="/categories/Redis/" class="category-chain-item">Redis</a>
   
   
 
@@ -343,8 +361,8 @@ src="/images/tree/B+树.jpg" srcset="/img/loading.gif" lazyload alt="B+树" /></
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>B树与B+树</div>
-      <div>https://wangfuxun.github.io/posts/18710/</div>
+      <div>Redis分片集群搭建</div>
+      <div>https://wangfuxun.github.io/posts/43577/</div>
     </div>
     <div class="license-meta">
       
@@ -356,7 +374,7 @@ src="/images/tree/B+树.jpg" srcset="/img/loading.gif" lazyload alt="B+树" /></
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>September 5, 2024</div>
+          <div>February 25, 2025</div>
         </div>
       
       
@@ -388,18 +406,12 @@ src="/images/tree/B+树.jpg" srcset="/img/loading.gif" lazyload alt="B+树" /></
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/43577/" title="Redis分片集群搭建">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Redis分片集群搭建</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/5735/" title="图-最短路径之Dijkstra算法">
-                        <span class="hidden-mobile">图-最短路径之Dijkstra算法</span>
+                      <a href="/posts/18710/" title="B树与B+树">
+                        <span class="hidden-mobile">B树与B+树</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -456,12 +468,6 @@ src="/images/tree/B+树.jpg" srcset="/img/loading.gif" lazyload alt="B+树" /></
 
 
   
-
-
-  
-  
-
-
 
 
 
@@ -655,49 +661,6 @@ src="/images/tree/B+树.jpg" srcset="/img/loading.gif" lazyload alt="B+树" /></
 
 
   <script>Fluid.plugins.imageCaption();</script>
-
-  
-      <script>
-        if (!window.MathJax) {
-          window.MathJax = {
-            tex    : {
-              inlineMath: { '[+]': [['$', '$']] }
-            },
-            loader : {
-              load: ['ui/lazy']
-            },
-            options: {
-              renderActions: {
-                insertedScript: [200, () => {
-                  document.querySelectorAll('mjx-container').forEach(node => {
-                    let target = node.parentNode;
-                    if (target.nodeName.toLowerCase() === 'li') {
-                      target.parentNode.classList.add('has-jax');
-                    }
-                  });
-                }, '', false]
-              }
-            }
-          };
-        } else {
-          MathJax.startup.document.state(0);
-          MathJax.texReset();
-          MathJax.typeset();
-          MathJax.typesetPromise();
-        }
-
-        Fluid.events.registerRefreshCallback(function() {
-          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
-            MathJax.startup.document.state(0);
-            MathJax.texReset();
-            MathJax.typeset();
-            MathJax.typesetPromise();
-          }
-        });
-      </script>
-    
-
-  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
