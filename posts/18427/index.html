@@ -16,26 +16,25 @@
   <meta name="author" content="WangFuxun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Redis三主三从分片集群可以直接在Linux虚拟机上搭建或者通过Docker容器搭建。这里采用Docker容器的方式进行搭建。 1.拉取镜像 首先从Docker Hub中拉取Redis镜像，这里拉取的是7.4.1版。 1docker pull redis:7.4.1 2.修改redis配置文件 主要是对redis的集群模式、保护模式等信息进行配置，内容如下： 123456789101">
+    <meta name="description" content="基于Docker安装MinIO 1.拉取镜像 1docker pull minio&#x2F;minio 2.基于MinIO镜像创建容器并启动，命令如下： 1docker run -d --name minio-oss -p 9000:9000 -p 9001:9001 -e &quot;MINIO_ROOT_USER&#x3D;admin&quot; -e &quot;MINIO_ROOT_PASSWORD&#x3D;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis分片集群搭建">
-<meta property="og:url" content="https://wangfuxun.github.io/posts/43577/index.html">
+<meta property="og:title" content="使用MinIO搭建OSS">
+<meta property="og:url" content="https://wangfuxun.github.io/posts/18427/index.html">
 <meta property="og:site_name" content="用心流浪">
-<meta property="og:description" content="Redis三主三从分片集群可以直接在Linux虚拟机上搭建或者通过Docker容器搭建。这里采用Docker容器的方式进行搭建。 1.拉取镜像 首先从Docker Hub中拉取Redis镜像，这里拉取的是7.4.1版。 1docker pull redis:7.4.1 2.修改redis配置文件 主要是对redis的集群模式、保护模式等信息进行配置，内容如下： 123456789101">
+<meta property="og:description" content="基于Docker安装MinIO 1.拉取镜像 1docker pull minio&#x2F;minio 2.基于MinIO镜像创建容器并启动，命令如下： 1docker run -d --name minio-oss -p 9000:9000 -p 9001:9001 -e &quot;MINIO_ROOT_USER&#x3D;admin&quot; -e &quot;MINIO_ROOT_PASSWORD&#x3D;">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://wangfuxun.github.io/images/redis/redis%E9%9B%86%E7%BE%A4-%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8.png">
-<meta property="og:image" content="https://wangfuxun.github.io/images/redis/redis%E9%9B%86%E7%BE%A4-IP%E5%9C%B0%E5%9D%80.png">
-<meta property="og:image" content="https://wangfuxun.github.io/images/redis/redis%E9%9B%86%E7%BE%A4-%E6%9F%A5%E7%9C%8B%E9%9B%86%E7%BE%A4%E6%83%85%E5%86%B5.png">
-<meta property="og:image" content="https://wangfuxun.github.io/images/redis/redis%E9%9B%86%E7%BE%A4-%E6%89%A7%E8%A1%8C%E8%AF%BB%E5%86%99%E6%93%8D%E4%BD%9C.png">
-<meta property="article:published_time" content="2025-02-25T10:45:33.000Z">
-<meta property="article:modified_time" content="2025-06-06T15:30:19.610Z">
+<meta property="og:image" content="https://wangfuxun.github.io/images/JavaWeb/MinIO-%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2.png">
+<meta property="og:image" content="https://wangfuxun.github.io/images/JavaWeb/MinIO-%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3.png">
+<meta property="og:image" content="https://wangfuxun.github.io/images/JavaWeb/MinIO-%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C.png">
+<meta property="article:published_time" content="2024-10-16T09:36:48.000Z">
+<meta property="article:modified_time" content="2025-06-19T16:02:58.832Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wangfuxun.github.io/images/redis/redis%E9%9B%86%E7%BE%A4-%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8.png">
+<meta name="twitter:image" content="https://wangfuxun.github.io/images/JavaWeb/MinIO-%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2.png">
   
   
   
-  <title>Redis分片集群搭建 - 用心流浪</title>
+  <title>使用MinIO搭建OSS - 用心流浪</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Redis分片集群搭建"></span>
+            <span id="subtitle" data-typed-text="使用MinIO搭建OSS"></span>
           
         </div>
 
@@ -212,8 +211,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-02-25 18:45" pubdate>
-          February 25, 2025 pm
+        <time datetime="2024-10-16 17:36" pubdate>
+          October 16, 2024 pm
         </time>
       </span>
     
@@ -224,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k words
+          3.2k words
         
       </span>
     
@@ -235,7 +234,7 @@
         
         
         
-          17 mins
+          27 mins
         
       </span>
     
@@ -272,56 +271,53 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Redis分片集群搭建</h1>
+            <h1 id="seo-header">使用MinIO搭建OSS</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Redis<strong>三主三从</strong>分片集群可以直接在Linux虚拟机上搭建或者通过Docker容器搭建。这里采用Docker容器的方式进行搭建。</p>
-<h2 id="拉取镜像">1.拉取镜像</h2>
-<p>首先从Docker Hub中拉取Redis镜像，这里拉取的是7.4.1版。
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> pull redis:<span class="hljs-number">7</span>.<span class="hljs-number">4</span>.<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></p>
-<h2 id="修改redis配置文件">2.修改redis配置文件</h2>
-<p>主要是对redis的集群模式、保护模式等信息进行配置，内容如下：
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Redis监听端口</span><br>port 6379<br><span class="hljs-comment"># 是否启用集群模式</span><br>cluster-enabled <span class="hljs-built_in">yes</span><br><span class="hljs-comment"># 集群的配置文件名称，由redis自身维护</span><br>cluster-config-file /tmp/nodes.conf<br><span class="hljs-comment"># 节点心跳失败的超时时间</span><br>cluster-node-timeout 5000<br><span class="hljs-comment"># 绑定服务器监听的地址（0.0.0.0为允许任意IP访问）</span><br><span class="hljs-built_in">bind</span> 0.0.0.0<br><span class="hljs-comment"># 是否为保护模式（默认为yes）</span><br>protected-mode no<br><span class="hljs-comment"># 持久化文件的存放目录</span><br><span class="hljs-built_in">dir</span> /data<br></code></pre></td></tr></table></figure> 将配置文件复制六份，分别用于六个redis实例。</p>
-<h2 id="启动容器">3.启动容器</h2>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir">docker run -itd --privileged=<span class="hljs-literal">true</span> --name redis-c1 -v <span class="hljs-symbol">D:</span>\redis\myRedisConfig\redis-c1.conf/<span class="hljs-symbol">:/usr/local/etc/redis/redis-c1</span>.conf -p <span class="hljs-number">7001</span><span class="hljs-symbol">:</span><span class="hljs-number">6379</span> <span class="hljs-symbol">redis:</span><span class="hljs-number">7.4</span>.<span class="hljs-number">1</span> redis-server /usr/local/etc/redis/redis-c1.conf<br></code></pre></td></tr></table></figure>
-<p>命令解释：</p>
+                <h2 id="基于docker安装minio">基于Docker安装MinIO</h2>
+<p>1.拉取镜像 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker pull minio/minio<br></code></pre></td></tr></table></figure></p>
+<p>2.基于MinIO镜像创建容器并启动，命令如下：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">docker run -d <span class="hljs-params">--name</span> minio-oss -p 9000<span class="hljs-function">:9000</span> -p 9001<span class="hljs-function">:9001</span> -e <span class="hljs-string">&quot;MINIO_ROOT_USER=admin&quot;</span> -e <span class="hljs-string">&quot;MINIO_ROOT_PASSWORD=12345678&quot;</span> -v E:\dockerData\data:<span class="hljs-string">/data</span> minio/minio server <span class="hljs-string">/data</span> <span class="hljs-params">--console-address</span> <span class="hljs-string">&quot;:9001&quot;</span> <span class="hljs-params">--address</span> <span class="hljs-string">&quot;:9000&quot;</span><br></code></pre></td></tr></table></figure>
+<p>参数解释：</p>
 <ol type="1">
-<li><code>-v D:\redis\myRedisConfig\redis-c1.conf/:/usr/local/etc/redis/redis-c1.conf</code>：将宿主机配置文件<code>D:\redis\myRedisConfig\redis-c1.conf</code>挂载到容器内路径<code>/usr/local/etc/redis/redis-c1.conf</code>，实现配置共享。</li>
-<li><code>-p 7001:6379</code>：将宿主机的7001端口映射到容器的6379端口（Redis默认端口），外部通过宿主机IP:7001访问容器内Redis服务。</li>
-<li><code>redis-server /usr/local/etc/redis/redis-c1.conf</code>：容器启动后执行的命令，即以指定配置文件启动Redis服务。</li>
+<li><code>-p 9000:9000 -p 9001:9001</code>：将宿主机的9000和9001端口分别映射到容器的9000和9001端口，外部通过<code>宿主机IP:端口号</code>的形式访问容器内minIO服务。</li>
+<li><code>-e "MINIO_ROOT_USER=admin" -e "MINIO_ROOT_PASSWORD=12345678"</code>：设置MinIO的登录账号和密码。</li>
+<li><code>-v E:\dockerData\data:/data minio/minio</code>：将宿主机的指定目录<code>E:\dockerData\data</code>挂载到容器内的目录<code>/data</code>，实现数据持久化。</li>
+<li><code>minio/minio server /data</code>：指定镜像<code>minio/minio</code>，并以<code>/data</code>作为根目录启动MinIO服务器。</li>
+<li><code>--console-address ":9001" --address ":9000"</code>：指定MinIO服务器的Web控制台服务监听9001端口（用于登录），对象存储API服务监听9000端口（用于文件上传/下载）。</li>
 </ol>
-<p>使用上述命令创建并启动redis-c1至redis-c6共6个容器，分别对应宿主机的7001至7006端口，如下图。
-<img src="/images/redis/redis集群-启动容器.png" srcset="/img/loading.gif" lazyload alt="启动容器" /></p>
-<h2 id="创建集群">4.创建集群</h2>
-<p>容器启动完成后，这些redis实例并不是以集群模式工作的。可以在任意一个容器的终端窗口通过以下命令创建集群：</p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dns">redis-cli --cluster create <span class="hljs-number">172.17.0.2</span>:<span class="hljs-number">6379 172.17</span>.<span class="hljs-number">0.3:6379</span> <span class="hljs-number">172.17.0.4</span>:<span class="hljs-number">6379 172.17</span>.<span class="hljs-number">0.5:6379</span> <span class="hljs-number">172.17.0.6</span>:<span class="hljs-number">6379 172.17</span>.<span class="hljs-number">0.7:6379</span> --cluster-replicas <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
-<p>其中，172.17.0.2:6379至172.17.0.7:6379分别为6个redis实例的内网IP地址和端口号，可以通过inspect命令或者在容器Inspect窗口中查看，如下图所示。
-<img src="/images/redis/redis集群-IP地址.png" srcset="/img/loading.gif" lazyload alt="IP地址" /></p>
-<p>通过<code>redis-cli cluster nodes</code>命令查看集群情况，如下图所示。
-<img src="/images/redis/redis集群-查看集群情况.png" srcset="/img/loading.gif" lazyload
-alt="查看集群" /></p>
-<p>可以在任意一个容器的终端窗口通过<code>redis-cli -c</code>命令，以集群模式连接到Redis服务器。然后即可进行读写操作，在进行读写操作时会进行重定向，如下图所示。
-<img src="/images/redis/redis集群-执行读写操作.png" srcset="/img/loading.gif" lazyload
-alt="执行读写操作" /></p>
-<p>如果想要在Java项目中使用Redis集群，还需要引入对应的Redis依赖，然后在application配置文件中配置集群中每一个节点的IP地址和端口号，并配置读写分离，最后在RedisTemplate中执行读写操作。</p>
-<h2 id="问题总结">问题总结</h2>
-<h3 id="端口号配置">1.端口号配置</h3>
-<p>如果在配置文件中修改了Redis监听端口，则通过客户端连接时必须指定对应的IP地址和端口号，例如<code>redis-cli -h 127.0.0.1 -p 8001</code>，否则会无法连接。</p>
-<h3 id="网络">2.网络</h3>
-<p>在默认情况下，Docker容器会连接到一个<strong>bridge</strong>网络，每一个容器都会被分配一个特定的IP地址，容器之间可以通过该IP地址进行通信。上述配置采用的是这种方式，实际使用的是容器在bridge的内网IP地址。</p>
-<p>第二种方式也就是使用<strong>宿主机的IP地址</strong>作为节点的对外IP地址，需要在redis.conf中添加一项注册IP地址。同时为了避免冲突（只是显示上冲突，实际并没有冲突），最好将端口号也进行修改。
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"># 注册的实例IP，宿主机IP地址<br><span class="hljs-keyword">replica</span>-announce-ip <span class="hljs-number">192.168</span>.xx.xxx<br># Redis监听的端口<br>port <span class="hljs-number">8001</span><br></code></pre></td></tr></table></figure></p>
+<p>在浏览器中输入<code>http://localhost:9001</code>进入登录界面，如下图所示。输入账户和密码即可进入系统界面，然后可以创建一个Bucket，直接在页面中选择文件上传。</p>
+<figure>
+<img src="/images/JavaWeb/MinIO-登录界面.png" srcset="/img/loading.gif" lazyload alt="MinIO登录界面" />
+<figcaption aria-hidden="true">MinIO登录界面</figcaption>
+</figure>
+<h2 id="springboot集成minio">SpringBoot集成MinIO</h2>
+<p>1.在pom文件中引入MinIO依赖项。 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.minio<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>minio<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>8.5.10<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></p>
+<p>2.在application.yml文件中配置MinIO服务器信息。 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">minio:</span><br>  <span class="hljs-attr">endpoint:</span> <span class="hljs-string">http://localhost:9000</span> <span class="hljs-comment"># MinIO服务地址</span><br>  <span class="hljs-attr">access-key:</span> <span class="hljs-string">admin</span> <span class="hljs-comment"># 账号</span><br>  <span class="hljs-attr">secret-key:</span> <span class="hljs-number">12345678</span>  <span class="hljs-comment"># 密码</span><br>  <span class="hljs-attr">bucket-name:</span> <span class="hljs-string">images</span> <span class="hljs-comment"># 存储桶的名字，可以不指定</span><br></code></pre></td></tr></table></figure></p>
+<p>3.编写配置类，将配置文件中的属性值导入并初始化MinIO客户端。
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MinioConfig</span> &#123;<br>    <span class="hljs-meta">@Value(<span class="hljs-string">&quot;<span class="hljs-subst">$&#123;minio.endpoint&#125;</span>&quot;</span>)</span><br>    <span class="hljs-keyword">private</span> String endpoint;<br><br>    <span class="hljs-meta">@Value(<span class="hljs-string">&quot;<span class="hljs-subst">$&#123;minio.access-key&#125;</span>&quot;</span>)</span><br>    <span class="hljs-keyword">private</span> String accessKey;<br><br>    <span class="hljs-meta">@Value(<span class="hljs-string">&quot;<span class="hljs-subst">$&#123;minio.secret-key&#125;</span>&quot;</span>)</span><br>    <span class="hljs-keyword">private</span> String secretKey;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> MinioClient getMinioClient() &#123;<br>        <span class="hljs-keyword">return</span> MinioClient.builder().endpoint(endpoint).credentials(accessKey, secretKey).build();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>4.编写上传文件的代码逻辑。 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Uploader</span> &#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> MinioClient minioClient;<br><br>    <span class="hljs-meta">@Value(<span class="hljs-string">&quot;<span class="hljs-subst">$&#123;minio.bucket-name&#125;</span>&quot;</span>)</span><br>    <span class="hljs-keyword">private</span> String bucketName;<br><br>    <span class="hljs-keyword">public</span> String upload(MultipartFile file)&#123;<br><br>        <span class="hljs-keyword">try</span>&#123;<br>            <span class="hljs-comment">//判断桶是否存在</span><br>            boolean exists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());<br><br>            <span class="hljs-keyword">if</span>(!exists)&#123;<br>                <span class="hljs-comment">//如果不存在则创建一个新桶</span><br>                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());<br>            &#125;<br><br>            String fileName = file.getOriginalFilename();<br>            <span class="hljs-comment">//上传文件</span><br>            minioClient.putObject(PutObjectArgs.builder()<br>                    .bucket(bucketName)<br>                    .stream(file.getInputStream(), file.getSize(), -<span class="hljs-number">1</span>)<br>                    .<span class="hljs-keyword">object</span>(fileName)<br>                    .build());<br><br>            <span class="hljs-comment">//获取文件的预签名URL（用于下载）</span><br>            String fileUrl = minioClient.getPresignedObjectUrl(<br>                    GetPresignedObjectUrlArgs.builder()<br>                            .bucket(bucketName)<br>                            .<span class="hljs-keyword">object</span>(fileName)<br>                            .method(Method.GET)<br>                            .build()<br>            );<br><br>            minioClient.close();<br>            <span class="hljs-keyword">return</span> fileUrl;<br>        &#125; <span class="hljs-keyword">catch</span>(Exception e)&#123;<br>            e.printStackTrace();<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure> controller代码
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-meta">@RestController</span><br><span class="hljs-meta">@RequestMapping(<span class="hljs-string">&quot;/oss&quot;</span>)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UploaderController</span> &#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> Uploader uploader;<br><br>    <span class="hljs-meta">@PostMapping(<span class="hljs-string">&quot;/upload&quot;</span>)</span><br>    <span class="hljs-keyword">public</span> String uploadFile(MultipartFile file)&#123;<br>        String result = uploader.upload(file);<br>        <span class="hljs-keyword">if</span>(result != <span class="hljs-literal">null</span> &amp;&amp; !result.isEmpty())&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;文件上传成功：&quot;</span> + result;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;文件上传失败&quot;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>在Apipost中创建一个测试接口，设置请求地址和请求方式，并在请求体中将参数类型设置为File，然后选择需要上传的本地文件，如下图所示。</p>
+<figure>
+<img src="/images/JavaWeb/MinIO-测试接口.png" srcset="/img/loading.gif" lazyload alt="MinIO测试接口" />
+<figcaption aria-hidden="true">MinIO测试接口</figcaption>
+</figure>
+<p>发送请求后，Apipost会接收到响应结果，其中包含上传文件的下载链接，并且在MinIO系统界面中可以看到上传的文件，如下图所示。</p>
+<figure>
+<img src="/images/JavaWeb/MinIO-测试结果.png" srcset="/img/loading.gif" lazyload alt="测试结果" />
+<figcaption aria-hidden="true">测试结果</figcaption>
+</figure>
 <p>参考文章：</p>
 <ol type="1">
 <li><a
-target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45863248/article/details/145281362">Docker搭建redis集群</a></li>
+target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2145598">史上最详细Docker安装最新版Minio</a></li>
 <li><a
-target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43025151/article/details/134205482">使用Docker搭建一个“一主两从”的
-Redis 集群</a></li>
+target="_blank" rel="noopener" href="https://juejin.cn/post/7344567644174319651">Minio搭建文件服务器</a></li>
 <li><a
-target="_blank" rel="noopener" href="https://download.csdn.net/blog/column/10939729/120390533">Docker搭建Redis主从复制集群</a></li>
+target="_blank" rel="noopener" href="https://blog.csdn.net/2302_79840586/article/details/148432935">使用MinIO搭建自己的分布式文件存储</a></li>
 </ol>
 
                 
@@ -341,7 +337,7 @@ target="_blank" rel="noopener" href="https://download.csdn.net/blog/column/10939
     
       <span class="category-chain">
         
-  <a href="/categories/Redis/" class="category-chain-item">Redis</a>
+  <a href="/categories/JavaWeb/" class="category-chain-item">JavaWeb</a>
   
   
 
@@ -361,8 +357,8 @@ target="_blank" rel="noopener" href="https://download.csdn.net/blog/column/10939
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Redis分片集群搭建</div>
-      <div>https://wangfuxun.github.io/posts/43577/</div>
+      <div>使用MinIO搭建OSS</div>
+      <div>https://wangfuxun.github.io/posts/18427/</div>
     </div>
     <div class="license-meta">
       
@@ -374,7 +370,7 @@ target="_blank" rel="noopener" href="https://download.csdn.net/blog/column/10939
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>February 25, 2025</div>
+          <div>October 16, 2024</div>
         </div>
       
       
@@ -406,9 +402,9 @@ target="_blank" rel="noopener" href="https://download.csdn.net/blog/column/10939
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/7417/" title="MySQL分库分表">
+                      <a href="/posts/43577/" title="Redis分片集群搭建">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MySQL分库分表</span>
+                        <span class="hidden-mobile">Redis分片集群搭建</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -416,8 +412,8 @@ target="_blank" rel="noopener" href="https://download.csdn.net/blog/column/10939
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/18427/" title="使用MinIO搭建OSS">
-                        <span class="hidden-mobile">使用MinIO搭建OSS</span>
+                      <a href="/posts/18710/" title="B树与B+树">
+                        <span class="hidden-mobile">B树与B+树</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
